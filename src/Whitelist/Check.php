@@ -51,7 +51,7 @@ class Check
 			elseif (preg_match('/^[\w\.]+$/', $definition))
 				$definitionObject = new Definition\Domain($definition);
 			else
-				throw new InvalidArgumentException('Unable to parse definition "'.$definition.'"');
+				throw new \InvalidArgumentException('Unable to parse definition "'.$definition.'"');
 
 			$this->_definitions[] = $definitionObject;
 		}
