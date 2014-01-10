@@ -30,8 +30,13 @@ class Check
 		foreach ($whitelist as $definition)
 		{
 			// Pre-configured object
-			if ($definition instanceof Definition\IDefinition)
-				$definitionObject = $definition;
+			if (is_object($definition))
+			{
+				if ($definition instanceof Definition\IDefinition)
+					$definitionObject = $definition;
+				else
+					throw new \InvalidArgumentException('Definition objects must implement IDefinition');
+			}
 			// IPv4 address
 			elseif (preg_match('/[a-z:\/]/', $definition) === 0)
 				$definitionObject = new Definition\IPv4Address($definition);
