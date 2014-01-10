@@ -15,14 +15,20 @@ Example usage:
 require_once("vendor/autoload.php");
 
 $checker = new Whitelist\Check();
-$checker->whitelist(array(
-	'10.0.3.1',
-	'10.0.0.0/16',
-	'2001:14b8:100:934b::3:1',
-	'2001:14b8:100:934b::/64',
-	'*.example.com',
-	new Whitelist\Definition\Domain('sub.example.com'),
-));
+
+try {
+	$checker->whitelist(array(
+		'10.0.3.1',
+		'10.0.0.0/16',
+		'2001:14b8:100:934b::3:1',
+		'2001:14b8:100:934b::/64',
+		'*.example.com',
+		new Whitelist\Definition\Domain('sub.example.com'),
+	));
+}
+catch (InvalidArgumentException $e) {
+	// thrown when an invalid definition is encountered
+}
 
 $checker->check('10.0.1.1'); // true
 $checker->check('10.1.1.1'); // false
