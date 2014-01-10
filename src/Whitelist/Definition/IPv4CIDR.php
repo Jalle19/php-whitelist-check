@@ -20,7 +20,7 @@ class IPv4CIDR extends IPv4Definition
 
 	public function match($value)
 	{
-		return $this->_addressHelper->ipInNetwork($value, $this->_definition);
+		return @$this->_addressHelper->ipInNetwork($value, $this->_definition);
 	}
 
 }
