@@ -1,0 +1,25 @@
+{
+	"name": "jalle19/php-whitelist-check",
+	"type": "library",
+	"description": "Provides a simple way to check whether an address or domain is on a whitelist",
+	"keywords": ["whitelist", "ipv4", "cidr", "ipv6"],
+	"homepage": "https://github.com/Jalle19/php-whitelist-check",
+	"license": "BSD-2-Clause",
+	"repositories": [
+		{
+			"type": "pear",
+			"url": "http://pear.php.net"
+		}
+	],
+	"require": {
+		"php": ">=5.3.0",
+		"pear-pear/pear": "*",
+		"pear-pear/Net_IPv4": "*",
+		"pear-pear/Net_IPv6": "*"
+	},
+	"autoload": {
+		"psr-0": {
+			"Whitelist\\": "src/"
+		}
+	}
+}
