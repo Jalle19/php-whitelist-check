@@ -14,8 +14,12 @@ class IPv4CIDR extends IPv4Definition
 
 	public function validate()
 	{
-		// @ prevents E_STRICT errors about calling non-static methods statically
-		return @$this->_addressHelper->parseAddress($this->_definition) !== false;
+		$addressInfo = @$this->_addressHelper->parseAddress($this->_definition);
+
+		if ($addressInfo instanceof \Net_IPv4)
+			return $addressInfo->bitmask !== false;
+
+		return false;
 	}
 
 	public function match($value)
