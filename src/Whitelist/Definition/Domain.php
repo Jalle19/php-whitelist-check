@@ -14,7 +14,7 @@ class Domain extends Definition
 
 	public function validate()
 	{
-		return true;
+		return strpos($this->_definition, '.');
 	}
 
 	public function match($value)
