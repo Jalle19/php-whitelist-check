@@ -46,25 +46,37 @@ class CheckTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test that match() works
+	 * @dataProvider matchDataprovider
 	 */
-	public function testMatch()
+	public function testMatch($expected, $expression)
 	{
 		$this->_checker->whitelist(array(
-			'10.0.3.1',
+			'10.2.3.1',
 			'10.0.0.0/16',
-			'2001:14b8:100:934b::3:1',
+			'2001:14d8:100:934b::3:1',
 			'2001:14b8:100:934b::/64',
 			'*.example.com',
 			new Whitelist\Definition\Domain('sub.example.com'),
 		));
+		
+		$this->assertEquals($expected, $this->_checker->check($expression));
+	}
 
-		$this->assertEquals(true, $this->_checker->check('10.0.3.1'));
-		$this->assertEquals(true, $this->_checker->check('10.0.1.1'));
-		$this->assertEquals(true, $this->_checker->check('2001:14b8:100:934b::3:1'));
-		$this->assertEquals(true, $this->_checker->check('2001:14b8:100:934b::12b1:1'));
-		$this->assertEquals(true, $this->_checker->check('anything.goes.example.com'));
-		$this->assertEquals(true, $this->_checker->check('sub.example.com'));
+	public function matchDataProvider()
+	{
+		return array(
+			array(true,   '10.2.3.1'),
+			array(false,  '10.2.3.2'),
+			array(true,   '10.0.1.1'),
+			array(false,  '10.1.1.1'),
+			array(true,   '2001:14d8:100:934b::3:1'),
+			array(false,  '2001:14d8:100:934b::3:2'),
+			array(true,   '2001:14b8:100:934b::12b1:1'),
+			array(false,  '2001:14c8:100:934b::12b1:1'),
+			array(true,   'anything.goes.example.com'),
+			array(true,   'sub.example.com'),
+			array(false,  'test.example2.com'),
+		);
 	}
 
 }

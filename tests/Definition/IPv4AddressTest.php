@@ -26,11 +26,21 @@ class IPv4AddressTest extends DefinitionTest
 		$this->_definition = new \Whitelist\Definition\IPv4Address('not.an.ipv4.address');
 	}
 
-	public function testMatch()
+	/**
+	 * @dataProvider provider
+	 */
+	public function testMatch($expected, $address)
 	{
 		$this->_definition = new \Whitelist\Definition\IPv4Address('192.168.1.1');
-		$this->assertEquals(true, $this->_definition->match('192.168.1.1'));
-		$this->assertEquals(false, $this->_definition->match('192.168.1.2'));
+		$this->assertEquals($expected, $this->_definition->match($address));
+	}
+
+	public function provider()
+	{
+		return array(
+			array(true, '192.168.1.1'),
+			array(false, '192.168.1.2'),
+		);
 	}
 
 }

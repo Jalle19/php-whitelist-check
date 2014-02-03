@@ -28,8 +28,4 @@ abstract class DefinitionTest extends PHPUnit_Framework_Testcase
 	 */
 	abstract public function testValidate();
 
-	/**
-	 * Should test that the match() function works as expected
-	 */
-	abstract public function testMatch();
 }

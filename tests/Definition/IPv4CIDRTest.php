@@ -26,12 +26,22 @@ class IPv4CIDRTest extends DefinitionTest
 		$this->_definition = new \Whitelist\Definition\IPv4CIDR('10.10.0.3');
 	}
 
-	public function testMatch()
+	/**
+	 * @dataProvider provider
+	 */
+	public function testMatch($expected, $address)
 	{
 		$this->_definition = new \Whitelist\Definition\IPv4CIDR('10.10.0.0/16');
-		$this->assertEquals(true, $this->_definition->match('10.10.1.1'));
-		$this->assertEquals(true, $this->_definition->match('10.10.76.1'));
-		$this->assertEquals(false, $this->_definition->match('110.1.76.1'));
+		$this->assertEquals($expected, $this->_definition->match($address));
+	}
+
+	public function provider()
+	{
+		return array(
+			array(true, '10.10.1.1'),
+			array(true, '10.10.76.1'),
+			array(false, '110.1.76.1'),
+		);
 	}
 
 }
