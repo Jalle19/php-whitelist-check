@@ -1,9 +1,11 @@
 <?php
 
 /**
- * Description of DomainTest
+ * Test for the domain definitions
  *
  * @author Sam Stenvall <neggelandia@gmail.com>
+ * @copyright Copyright &copy; Sam Stenvall 2014-
+ * @license http://www.opensource.org/licenses/bsd-license.php New BSD License
  */
 class DomainTest extends DefinitionTest
 {
