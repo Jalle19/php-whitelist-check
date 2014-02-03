@@ -27,6 +27,8 @@ class Check
 	 */
 	public function whitelist(array $whitelist)
 	{
+		$this->_definitions = array();
+		
 		foreach ($whitelist as $definition)
 		{
 			// Pre-configured object
@@ -61,7 +63,7 @@ class Check
 			$this->_definitions[] = $definitionObject;
 		}
 	}
-
+	
 	/**
 	 * Checks the specified value against all configured definitions and 
 	 * returns true if at least one definition considers it a match
