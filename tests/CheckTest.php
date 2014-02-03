@@ -55,6 +55,7 @@ class CheckTest extends PHPUnit_Framework_TestCase
 			'10.0.0.0/16',
 			'2001:14d8:100:934b::3:1',
 			'2001:14b8:100:934b::/64',
+			'test.com',
 			'*.example.com',
 			new Whitelist\Definition\Domain('sub.example.com'),
 		));
@@ -73,6 +74,7 @@ class CheckTest extends PHPUnit_Framework_TestCase
 			array(false,  '2001:14d8:100:934b::3:2'),
 			array(true,   '2001:14b8:100:934b::12b1:1'),
 			array(false,  '2001:14c8:100:934b::12b1:1'),
+			array(true,   'test.com'),
 			array(true,   'anything.goes.example.com'),
 			array(true,   'sub.example.com'),
 			array(false,  'test.example2.com'),
