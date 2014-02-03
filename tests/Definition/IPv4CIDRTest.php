@@ -31,9 +31,7 @@ class IPv4CIDRTest extends DefinitionTest
 		$this->_definition = new \Whitelist\Definition\IPv4CIDR('10.10.0.0/16');
 		$this->assertEquals(true, $this->_definition->match('10.10.1.1'));
 		$this->assertEquals(true, $this->_definition->match('10.10.76.1'));
-
-		// TODO: Fix Net_IPv4 so that it works from the CLI
-		//$this->assertEquals(false, $this->_definition->match('110.1.76.1'));
+		$this->assertEquals(false, $this->_definition->match('110.1.76.1'));
 	}
 
 }

@@ -9,17 +9,12 @@ namespace Whitelist\Definition;
  * @copyright Copyright &copy; Sam Stenvall 2014-
  * @license http://www.opensource.org/licenses/bsd-license.php New BSD License
  */
-class IPv4Address extends IPv4Definition
+class IPv4Address extends IPAddress
 {
 
 	public function validate()
 	{
-		return $this->_addressHelper->validateIP($this->_definition);
-	}
-
-	public function match($value)
-	{
-		return $this->_definition === $value;
+		return \IpUtils\Address\IPv4::isValid($this->_definition);
 	}
 
 }
