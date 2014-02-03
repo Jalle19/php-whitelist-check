@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Jalle19/php-whitelist-check.png?branch=master)](https://travis-ci.org/Jalle19/php-whitelist-check)
+
 php-whitelist-check
 ===================
 
