@@ -36,3 +36,7 @@ $checker->check('2001:14b8:100:934b::210:2'); // true
 $checker->check('another.example.com'); // true
 
 ```
+
+## Credits
+
+This library depends on xrstf/ip-utils for the IP-related functionality. It also assumes that ip-utils's test cases are sufficient, which is why only trivial testing on these functions have been made for this library.
