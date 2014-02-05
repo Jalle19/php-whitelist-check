@@ -20,7 +20,7 @@ class WildcardDomain extends Definition
 	public function match($value)
 	{
 		// Remove the wildcard part and check if it matches the end of $value
-		$domain = substr($this->_definition, 2);
+		$domain = substr($this->_definition, 1);
 
 		return substr($value, -strlen($domain)) === $domain;
 	}

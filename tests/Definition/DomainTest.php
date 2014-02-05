@@ -39,6 +39,9 @@ class DomainTest extends DefinitionTest
 		return array(
 			array(true,  new Whitelist\Definition\WildcardDomain('*.example.com'), 'sub.example.com'),
 			array(true,  new Whitelist\Definition\WildcardDomain('*.example.com'), 'anothersub.example.com'),
+			array(false,  new Whitelist\Definition\WildcardDomain('*.example.com'), 'sub.example.net'),
+			array(false,  new Whitelist\Definition\WildcardDomain('*.example.com'), 'sub.anotherexample.com'),
+			array(false,  new Whitelist\Definition\WildcardDomain('*.example.com'), 'localhost'),
 			array(true,  new Whitelist\Definition\Domain('example.com'), 'example.com'),
 			array(false, new Whitelist\Definition\Domain('example.com'), 'sub.example.com'),
 			array(false, new Whitelist\Definition\Domain('example.com'), 'example2.com'),
