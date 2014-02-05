@@ -14,7 +14,23 @@ class Domain extends Definition
 
 	public function validate()
 	{
-		return strpos($this->_definition, '.');
+		// The domain name cannot be empty
+		if (strlen($this->_definition) === 0)
+			return false;
+
+		// None of the parts in the domain name can contain invalid characters 
+		// or begin/end with a dash
+		foreach (explode('.', $this->_definition) as $part)
+		{
+			if (!preg_match('/^[a-zA-Z0-9-\.]+$/', $part) ||
+					substr($part, 0, 1) === '-' ||
+					substr($part, -1) === '-')
+			{
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	public function match($value)

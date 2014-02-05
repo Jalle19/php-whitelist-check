@@ -17,13 +17,34 @@ class DomainTest extends DefinitionTest
 	{
 		$this->_definition = new Whitelist\Definition\Domain('');
 	}
+	
+	public function testValidate()
+	{
+		// do nothing here
+	}
 
 	/**
 	 * @expectedException InvalidArgumentException
 	 */
-	public function testValidate()
+	public function testValidateInvalidCharacters()
 	{
 		$this->_definition = new Whitelist\Definition\Domain('ag*');
+	}
+	
+	/**
+	 * @expectedException InvalidArgumentException
+	 */
+	public function testValidateInvalidBeginning()
+	{
+		$this->_definition = new Whitelist\Definition\Domain('-otherwise-valid.com');
+	}
+	
+	/**
+	 * @expectedException InvalidArgumentException
+	 */
+	public function testValidateInvalidEnd()
+	{
+		$this->_definition = new Whitelist\Definition\Domain('otherwise-valid-.com');
 	}
 
 	/**
@@ -42,6 +63,7 @@ class DomainTest extends DefinitionTest
 			array(false,  new Whitelist\Definition\WildcardDomain('*.example.com'), 'sub.example.net'),
 			array(false,  new Whitelist\Definition\WildcardDomain('*.example.com'), 'sub.anotherexample.com'),
 			array(false,  new Whitelist\Definition\WildcardDomain('*.example.com'), 'localhost'),
+			array(true,  new Whitelist\Definition\Domain('localhost'), 'localhost'),
 			array(true,  new Whitelist\Definition\Domain('example.com'), 'example.com'),
 			array(false, new Whitelist\Definition\Domain('example.com'), 'sub.example.com'),
 			array(false, new Whitelist\Definition\Domain('example.com'), 'example2.com'),
