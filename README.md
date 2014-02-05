@@ -3,11 +3,13 @@
 php-whitelist-check
 ===================
 
-A modern and simple approach to validating IP addresses and domains against a whitelist. It supports both IPv4 and IPv6.
+A modern and simple approach to validating IP addresses and domains against a whitelist. It supports both IPv4 and IPv6 addresses and CIDR subnets in addition to domain names and wild-card domains.
 
 ## Usage
 
 The `Check::whitelist()` method takes an array of definitions which will constitute the whitelist. The definitions can either be strings (which will be parsed to their respective objects) or objects.
+
+The `Check::check($value)` method is used to check the specified value against the current whitelist. The method will return true if the value matches any of the definitions.
 
 To create your own definition classes just extended `Whitelist\Definition\Definition` and implement `Whitelist\Definition\IDefinition`
 
@@ -25,7 +27,8 @@ try {
 		'2001:14b8:100:934b::3:1',
 		'2001:14b8:100:934b::/64',
 		'*.example.com',
-		new Whitelist\Definition\Domain('sub.example.com'),
+		'localhost',
+		new Whitelist\Definition\Domain('vpn.work.com'),
 	));
 }
 catch (InvalidArgumentException $e) {
