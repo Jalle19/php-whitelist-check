@@ -46,6 +46,8 @@ class CheckTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * This test also tests that the whitelist definitions are valid, ie. they 
+	 * don't throw an exception
 	 * @dataProvider matchDataprovider
 	 */
 	public function testMatch($expected, $expression)
@@ -56,6 +58,8 @@ class CheckTest extends PHPUnit_Framework_TestCase
 			'2001:14d8:100:934b::3:1',
 			'2001:14b8:100:934b::/64',
 			'test.com',
+			'example-domain.com',
+			'*.another-example-domain.com',
 			'*.example.com',
 			new Whitelist\Definition\Domain('sub.example.com'),
 		));
@@ -78,6 +82,8 @@ class CheckTest extends PHPUnit_Framework_TestCase
 			array(true,   'anything.goes.example.com'),
 			array(true,   'sub.example.com'),
 			array(false,  'test.example2.com'),
+			array(true,   'example-domain.com'),
+			array(true,   'test.another-example-domain.com')
 		);
 	}
 

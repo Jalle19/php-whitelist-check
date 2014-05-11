@@ -52,10 +52,10 @@ class Check
 			elseif (preg_match('/^[0-9a-f:\/]+$/', $definition))
 				$definitionObject = new Definition\IPv6CIDR($definition);
 			// Wildcard domain
-			elseif (preg_match('/^\*\.[\w\.]+$/', $definition))
+			elseif (preg_match('/^\*\.[\w\.\-]+$/', $definition))
 				$definitionObject = new Definition\WildcardDomain($definition);
 			// Domain
-			elseif (preg_match('/^[\w\.]+$/', $definition))
+			elseif (preg_match('/^[\w\.\-]+$/', $definition))
 				$definitionObject = new Definition\Domain($definition);
 			else
 				throw new \InvalidArgumentException('Unable to parse definition "'.$definition.'"');
