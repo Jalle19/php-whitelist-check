@@ -1,4 +1,4 @@
-<?php
+com<?php
 
 /**
  * Tests for the Check class
@@ -34,6 +34,17 @@ class CheckTest extends PHPUnit_Framework_TestCase
 		));
 	}
 
+    /**
+     * Test invalid objects passed to blacklist()
+     * @expectedException InvalidArgumentException
+     */
+    public function testInvalidDefinitionObjectOnBlacklist()
+    {
+        $this->_checker->blacklist(array(
+           new stdClass(),
+       ));
+    }
+
 	/**
 	 * Test unparsable definition passed to whitelist()
 	 * @expectedException InvalidArgumentException
@@ -45,29 +56,87 @@ class CheckTest extends PHPUnit_Framework_TestCase
 		));
 	}
 
-	/**
-	 * This test also tests that the whitelist definitions are valid, ie. they 
-	 * don't throw an exception
-	 * @dataProvider matchDataprovider
-	 */
-	public function testMatch($expected, $expression)
-	{
-		$this->_checker->whitelist(array(
-			'10.2.3.1',
-			'10.0.0.0/16',
-			'2001:14d8:100:934b::3:1',
-			'2001:14b8:100:934b::/64',
-			'test.com',
-			'example-domain.com',
-			'*.another-example-domain.com',
-			'*.example.com',
-			new Whitelist\Definition\Domain('sub.example.com'),
-		));
-		
-		$this->assertEquals($expected, $this->_checker->check($expression));
-	}
+    /**
+     * Test unparsable definition passed to blacklist()
+     * @expectedException InvalidArgumentException
+     */
+    public function testUnknownDefinitionOnBlacklist()
+    {
+        $this->_checker->blacklist(array(
+           'ag?', // definition class should not be able to be determined
+       ));
+    }
 
-	public function matchDataProvider()
+	/**
+     * This test also tests that the whitelist definitions are valid, ie. they
+     * don't throw an exception
+     * @dataProvider whitelistMatchDataProvider
+     */
+    public function testWhitelistMatch($expected, $expression)
+    {
+        $this->_checker->whitelist(array(
+           '10.2.3.1',
+           '10.0.0.0/16',
+           '2001:14d8:100:934b::3:1',
+           '2001:14b8:100:934b::/64',
+           'test.com',
+           'example-domain.com',
+           '*.another-example-domain.com',
+           '*.example.com',
+           new Whitelist\Definition\Domain('sub.example.com'),
+       ));
+
+        $this->assertEquals($expected, $this->_checker->check($expression));
+    }
+
+    /**
+     * This test also tests that the blacklist definitions are valid, ie. they
+     * don't throw an exception
+     * @dataProvider blacklistMatchDataProvider
+     */
+    public function testBlacklistMatch($expected, $expression)
+    {
+        $this->_checker->blacklist(array(
+           '10.2.3.1',
+           '10.0.0.0/16',
+           '2001:14d8:100:934b::3:1',
+           '2001:14b8:100:934b::/64',
+           'test.com',
+           'example-domain.com',
+           '*.another-example-domain.com',
+           '*.example.com',
+           new Whitelist\Definition\Domain('sub.example.com'),
+       ));
+
+        $this->assertEquals($expected, $this->_checker->check($expression));
+    }
+
+    /**
+     * This test also tests that the both definitions are valid, ie. they
+     * don't throw an exception
+     * @dataProvider bothMatchDataProvider
+     */
+    public function testBothMatch($expected, $expression)
+    {
+        $this->_checker->whitelist(array(
+           '10.2.3.1',
+           '2001:14b8:100:934b::/64',
+           'test.com',
+           '*.another-example-domain.com',
+           new Whitelist\Definition\Domain('sub.example.com'),
+        ));
+
+        $this->_checker->blacklist(array(
+           '10.0.0.0/16',
+           '2001:14b8:100:934b::/64',
+           'example-domain.com',
+           '*.example.com'
+       ));
+
+        $this->assertEquals($expected, $this->_checker->check($expression));
+    }
+
+	public function whitelistMatchDataProvider()
 	{
 		return array(
 			array(true,   '10.2.3.1'),
@@ -86,5 +155,45 @@ class CheckTest extends PHPUnit_Framework_TestCase
 			array(true,   'test.another-example-domain.com')
 		);
 	}
+
+    public function blacklistMatchDataProvider()
+    {
+        return array(
+            array(true,   '10.2.3.1'),
+            array(false,  '10.2.3.2'),
+            array(true,   '10.0.1.1'),
+            array(false,  '10.1.1.1'),
+            array(true,   '2001:14d8:100:934b::3:1'),
+            array(false,  '2001:14d8:100:934b::3:2'),
+            array(true,   '2001:14b8:100:934b::12b1:1'),
+            array(false,  '2001:14c8:100:934b::12b1:1'),
+            array(true,   'test.com'),
+            array(true,   'anything.goes.example.com'),
+            array(true,   'sub.example.com'),
+            array(false,  'test.example2.com'),
+            array(true,   'example-domain.com'),
+            array(true,   'test.another-example-domain.com')
+        );
+    }
+
+    public function bothMatchDataProvider()
+    {
+        return array(
+            array(true,   '10.2.3.1'),
+            array(false,  '10.2.3.2'),
+            array(true,   '10.0.1.1'),
+            array(false,  '10.1.1.1'),
+            array(true,   '2001:14d8:100:934b::3:1'),
+            array(false,  '2001:14d8:100:934b::3:2'),
+            array(true,   '2001:14b8:100:934b::12b1:1'),
+            array(false,  '2001:14c8:100:934b::12b1:1'),
+            array(true,   'test.com'),
+            array(true,   'anything.goes.example.com'),
+            array(true,   'sub.example.com'),
+            array(false,  'test.example2.com'),
+            array(true,   'example-domain.com'),
+            array(true,   'test.another-example-domain.com')
+        );
+    }
 
 }
