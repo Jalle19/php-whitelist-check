@@ -19,6 +19,11 @@ class Check
 	 */
 	private $_definitions = array();
 
+    /**
+     * @var string[] the registered definition classes
+     */
+    private $_definitionClasses = array();
+
 	/**
 	 * Parses the whitelist definitions into respective objects
 	 * @param array $whitelist list of definition strings
@@ -63,6 +68,16 @@ class Check
 			$this->_definitions[] = $definitionObject;
 		}
 	}
+
+    /**
+     * Parses the whitelist definitions into respective objects
+     * @param array $whitelist list of definition strings
+     * @throws InvalidArgumentException if the definition type couldn't be
+     * determined
+     */
+    public function blacklist () {
+
+    }
 	
 	/**
 	 * Checks the specified value against all configured definitions and 
@@ -78,5 +93,11 @@ class Check
 
 		return false;
 	}
+
+    public function registerDefinition($regex, $definitionClass) {
+        if ($definitionClass){
+
+        }
+    }
 
 }
