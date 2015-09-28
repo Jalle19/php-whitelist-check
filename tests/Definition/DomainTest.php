@@ -1,4 +1,5 @@
 <?php
+use Whitelist\Definition\IDefinition;
 
 /**
  * Test for the domain definitions
@@ -50,7 +51,7 @@ class DomainTest extends DefinitionTest
 	/**
 	 * @dataProvider provider
 	 */
-	public function testMatch($expected, $definition, $value)
+	public function testMatch($expected, IDefinition $definition, $value)
 	{
 		$this->assertEquals($expected, $definition->match($value));
 	}

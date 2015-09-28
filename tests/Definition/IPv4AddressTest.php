@@ -35,6 +35,16 @@ class IPv4AddressTest extends DefinitionTest
 		$this->assertEquals($expected, $this->_definition->match($address));
 	}
 
+    /**
+     * @param $address
+     * @dataProvider $invalidAddress
+     * @expectedException InvalidArgumentException
+     */
+    public function testValidate2 ($address)
+    {
+        $this->_definition = new \Whitelist\Definition\IPv4Address($address);
+    }
+
 	public function provider()
 	{
 		return array(
@@ -43,4 +53,15 @@ class IPv4AddressTest extends DefinitionTest
 		);
 	}
 
+    public function invalidAddress()
+    {
+        return array(
+            array('aa'),
+            array(''),
+            array('not.an.ipv4.address'),
+            array('192.168.1.2.3.4.5'),
+            array('192.1'),
+            array('dfsj399fhd982n..sd[3')
+        );
+    }
 }
