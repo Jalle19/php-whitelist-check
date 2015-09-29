@@ -2,6 +2,9 @@
 
 namespace Whitelist\Definition;
 
+use IpUtils\Expression\Subnet;
+use IpUtils\Factory;
+
 /**
  * Represents a CIDR notation 
  *
@@ -11,34 +14,36 @@ namespace Whitelist\Definition;
  */
 abstract class IPCIDR extends Definition
 {
+    /**
+     * Return true if the value is valid for this definition
+     *
+     * @param $value
+     * @return boolean
+     */
+    public static function accept($value)
+    {
+        try
+        {
+            $subnet = static::getSubnet($value);
 
-	protected $_subnet;
-
-	public function validate()
-	{
-		try
-		{
-			$this->_subnet = \IpUtils\Factory::getExpression($this->_definition);
-			
-			// Check that we got a subnet expression and not something else
-			if (!$this->_subnet instanceof \IpUtils\Expression\Subnet)
-				return false;
-		}
-		catch (\Exception $e)
-		{
-			unset($e);
-			return false;
-		}
-
-		return true;
-	}
+            return  ($subnet !== null);
+        }
+        catch (\Exception $e)
+        {
+            unset($e);
+            return false;
+        }
+    }
 
 	public function match($value)
 	{
 		try
 		{
-			$address = \IpUtils\Factory::getAddress($value);
-			return $this->_subnet->matches($address);
+            $subnet = static::getSubnet($this->_definition);
+
+			$address = Factory::getAddress($value);
+
+			return $subnet->matches($address);
 		}
 		catch (\Exception $e)
 		{
@@ -46,5 +51,21 @@ abstract class IPCIDR extends Definition
 			return false;
 		}
 	}
+
+    /**
+     * Return a subnet if the $value have one
+     *
+     * @param $value
+     * @return null|Subnet
+     */
+    protected static function getSubnet($value) {
+        $subnet = Factory::getExpression($value);
+
+        if (!$subnet instanceof Subnet) {
+            return null;
+        }
+
+        return $subnet;
+    }
 
 }

@@ -37,12 +37,18 @@ class IPv4AddressTest extends DefinitionTest
 
     /**
      * @param $address
-     * @dataProvider $invalidAddress
-     * @expectedException InvalidArgumentException
+     * @dataProvider invalidAddress
+     *
      */
-    public function testValidate2 ($address)
+    public function testException ($raiseExeption, $address)
     {
-        $this->_definition = new \Whitelist\Definition\IPv4Address($address);
+        try {
+            $this->_definition = new \Whitelist\Definition\IPv4Address($address);
+            static::assertFalse($raiseExeption, 'Exception not expected');
+        }
+        catch (InvalidArgumentException $ex) {
+            static::assertTrue($raiseExeption, 'Exception expected');
+        }
     }
 
 	public function provider()
@@ -56,12 +62,13 @@ class IPv4AddressTest extends DefinitionTest
     public function invalidAddress()
     {
         return array(
-            array('aa'),
-            array(''),
-            array('not.an.ipv4.address'),
-            array('192.168.1.2.3.4.5'),
-            array('192.1'),
-            array('dfsj399fhd982n..sd[3')
+            array(true, 'aa'),
+            array(true, ''),
+            array(true, 'not.an.ipv4.address'),
+            array(true, '192.168.1.2.3.4.5'),
+            array(true, '192.1'),
+            array(true, 'dfsj399fhd982n..sd[3'),
+            array(false, '192.168.1.1')
         );
     }
 }

@@ -12,11 +12,6 @@ namespace Whitelist\Definition;
 class WildcardDomain extends Definition
 {
 
-	public function validate()
-	{
-		return true;
-	}
-
 	public function match($value)
 	{
 		// Remove the wildcard part and check if it matches the end of $value
@@ -25,4 +20,14 @@ class WildcardDomain extends Definition
 		return substr($value, -strlen($domain)) === $domain;
 	}
 
+    /**
+     * Return true if the value is valid for this definition
+     *
+     * @param $value
+     * @return boolean
+     */
+    public static function accept($value)
+    {
+        return preg_match('/^\*\.[\w\.\-]+$/', $value) === 1;
+    }
 }

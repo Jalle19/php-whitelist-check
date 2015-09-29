@@ -2,6 +2,8 @@
 
 namespace Whitelist\Definition;
 
+use InvalidArgumentException;
+
 /**
  * Base class for all definitions
  *
@@ -26,8 +28,8 @@ abstract class Definition implements IDefinition
 	{
 		$this->_definition = $definition;
 
-		if (!$this->validate())
-			throw new \InvalidArgumentException('The definition "'.$this->_definition.'" is invalid');
+		if (!static::accept($definition)) {
+            throw new InvalidArgumentException('The definition "' . $this->_definition . '" is invalid');
+        }
 	}
-
 }

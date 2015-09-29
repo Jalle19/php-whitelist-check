@@ -1,235 +1,108 @@
 <?php
+/**
+ * Check.php
+ *
+ * @author cnastasi - Christian Nastasi <christian.nastasi@dxi.eu>
+ * Created on Sep 29, 2015, 15:10
+ * Copyright (C) DXI Ltd
+ */
 
 namespace Whitelist;
 
-use InvalidArgumentException;
-use Whitelist\Definition\IDefinition;
-
 /**
- * Main class for checking values against a whitelist. It provides a method to
- * set up the whitelist and a method to match arbitrary string against the
- * whitelist.
- *
- * @author Sam Stenvall <neggelandia@gmail.com>
- * @copyright Copyright &copy; Sam Stenvall 2014-
- * @license http://www.opensource.org/licenses/bsd-license.php New BSD License
+ * Class Check
+ * @package Whitelist
  */
-class Check
+class Check implements ICheck
 {
-
     /**
-     * @var IDefinition[] the whitelist definitions
+     * @var bool
      */
-    private $_whitelistDefinitions = array();
+    private $permissiveMode;
 
     /**
-     * @var IDefinition[] the blacklist definitions
+     * @var WhitelistCheck
      */
-    private $_blacklistDefinitions = array();
+    private $whitelistCheck;
 
     /**
-     * @var string[] the registered definition classes
+     * @var BlacklistCheck
      */
-    private $_definitionClasses = array();
+    private $blacklistCheck;
 
     /**
-     * @var callable
-     */
-    private $_validationLogic;
-
-    /**
-     * @param bool $permissiveMode If true, default whitelist is everything, otherwise is nothing
+     * @param bool $permissiveMode
      */
     public function __construct($permissiveMode = false)
     {
-        $this->initDefinitions();
 
-        $this->permissiveMode = (bool) $permissiveMode;
+        $this->permissiveMode = (bool)$permissiveMode;
+
+        $this->whitelistCheck = new WhitelistCheck();
+        $this->blacklistCheck = new BlacklistCheck();
     }
 
     /**
-     * Parses the whitelist definitions into respective objects
-     * @param array $whitelist list of definition strings
-     * @throws InvalidArgumentException if the definition type couldn't be
-     * determined
+     * @param array $definitions
      */
-    public function whitelist(array $whitelist)
+    public function whitelist(array $definitions)
     {
-        $this->_whitelistDefinitions = array();
-
-        $this->matchDefinitions($this->_whitelistDefinitions, $whitelist);
+        $this->whitelistCheck->addDefinitions($definitions);
     }
 
     /**
-     * Parses the blacklist definitions into respective objects
-     * @param array $blacklist list of definition strings
-     * @throws InvalidArgumentException if the definition type couldn't be
-     * determined
+     * @param array $definitions
      */
-    public function blacklist(array $blacklist)
+    public function blacklist(array $definitions)
     {
-        $this->_blacklisttDefinitions = array();
-
-        $this->matchDefinitions($this->_blacklistDefinitions, $blacklist);
+        $this->blacklistCheck->addDefinitions($definitions);
     }
 
     /**
-     * Checks the specified value against all configured definitions and
-     * returns true if: the value is in the  white list but not in the blacklist at least one definition considers it a match
-     * @param string $value the value to be checked
-     * @return boolean
+     * @param $value
+     * @return mixed
      */
     public function check($value)
     {
-       return $this->isInWhitelist($value) && !$this->isInBlacklist($value);
-    }
+        $whitelistCheck = $this->whitelistCheck->getDefinitionsCount() > 0
+            ? $this->whitelistCheck->check($value)
+            : null;
 
-    /**
-     * @param $value
-     * @return bool
-     */
-    public function isInWhitelist($value) {
-        return count($this->_whitelistDefinitions) !== 0
-               ? $this->checkDefinitions($this->_blacklistDefinitions, $value)
-               : $this->permissiveMode;
-    }
+        $blacklistCheck = $this->blacklistCheck->getDefinitionsCount() > 0
+            ? $this->blacklistCheck->check($value)
+            : null;
 
-    /**
-     * @param $value
-     * @return bool
-     */
-    public function isInBlacklist($value) {
-        return count($this->_blacklistDefinitions) !== 0
-               ? $this->checkDefinitions($this->_blacklistDefinitions, $value)
-               : false;
-    }
+//        echo "\nCheck: $value\n";
+//        printBool('In whitelist', $whitelistCheck);
+//        printBool('Not in blacklist', $blacklistCheck);
+//        printBool('permissive mode', $this->permissiveMode);
 
-    /**
-     * @param $regex
-     * @param $definitionClass
-     */
-    public function registerDefinition($regex, $definitionClass)
-    {
-        if (!is_a($definitionClass, 'Whitelist\Definition\IDefinition', true)) {
-            throw new InvalidArgumentException('Definition objects must implement IDefinition');
+        // No rules set
+        if ($whitelistCheck === null && $blacklistCheck === null) {
+            return $this->permissiveMode;
         }
 
-        $this->_definitionClasses[$regex] = $definitionClass;
-    }
-
-    /**
-     * @param callable $validationLogic
-     */
-    public function setValidationLogic(callable $validationLogic) {
-        $this->_validationLogic = $validationLogic;
-    }
-
-    /**
-     * @param array $definitionInstances
-     * @param array $definitions
-     */
-    private function matchDefinitions(array &$definitionInstances, array $definitions)
-    {
-        var_dump($definitions);
-        foreach ($definitions as $definition) {
-            $definitionObject = $this->matchDefinition($definition);
-
-            $definitionInstances[] = $definitionObject;
+        // No whitelist set
+        if ($whitelistCheck === null) {
+            return $blacklistCheck;
         }
 
-    }
-
-    /**
-     * @param $definition
-     * @return null
-     */
-    private function matchDefinition($definition)
-    {
-       // echo "\nmatchDefinition: $definition\n";
-        $definitionObject = $this->matchPreconfiguredObject($definition);
-       // var_dump($definitionObject);
-
-        if (!$definitionObject) {
-            $definitionObject = $this->matchDefinitionClasses($definition);
-        }
-        //var_dump($definitionObject)//..;
-
-        if (!$definitionObject) {
-            throw new InvalidArgumentException('Unable to parse definition "' . $definition . '"');
+        // No blacklist set
+        if ($blacklistCheck === null) {
+            return $whitelistCheck;
         }
 
-        return $definitionObject;
+        $result = $whitelistCheck && $blacklistCheck;
+
+//        printBool('Result', $result);
+
+        return $result;
     }
 
-    /**
-     * @param $definition
-     * @return IDefinition|null
-     */
-    private function matchPreconfiguredObject($definition)
-    {
-        if (is_object($definition)) {
-            if (!($definition instanceof Definition\IDefinition)) {
-                throw new InvalidArgumentException('Definition objects must implement IDefinition');
-            }
 
-            return $definition;
-        }
+}
 
-        return null;
-    }
-
-    /**
-     * @param string $definition
-     * @return IDefinition|null
-     */
-    private function matchDefinitionClasses($definition)
-    {
-        $definitionObject = null;
-
-        foreach ($this->_definitionClasses as $regex => $definitionClass) {
-            if (preg_match($regex, $definition)) {
-                try {
-                    $definitionObject = new $definitionClass($definition);
-                }
-                catch (\Exception $ex) {
-                    var_dump($definitionClass, $definition);
-                    echo "$regex\n";
-                    die();
-                }
-            }
-        }
-
-        return $definitionObject;
-    }
-
-    private function initDefinitions()
-    {
-        $this->registerDefinition('/[a-z:\/]/',        'Whitelist\Definition\IPv4Address');
-        $this->registerDefinition('/[a-z:]/',          'Whitelist\Definition\IPv4CIDR');
-        //$this->registerDefinition('/^[0-9a-f:]+$/',    'Whitelist\Definition\IPv6Address');
-
-        $this->registerDefinition(
-            '/^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$/',
-            'Whitelist\Definition\IPv6Address'
-        );
-
-        $this->registerDefinition('/^[0-9a-f:\/]+$/',  'Whitelist\Definition\IPv6CIDR');
-        $this->registerDefinition('/^\*\.[\w\.\-]+$/', 'Whitelist\Definition\WildcardDomain');
-        $this->registerDefinition('/^[\w\.\-]+$/',     'Whitelist\Definition\Domain');
-    }
-
-    /**
-     * @param IDefinition[] $definitions
-     * @param mixed $value
-     * @return bool
-     */
-    private function checkDefinitions (array $definitions, $value) {
-        foreach ($definitions as $definition) {
-            if ($definition->match($value)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
+function printBool($title, $value)
+{
+    echo $title . ': ' . ($value ? 'true' : 'false') . PHP_EOL;
 }
