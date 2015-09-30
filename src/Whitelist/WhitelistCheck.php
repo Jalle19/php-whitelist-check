@@ -13,6 +13,6 @@ namespace Whitelist;
  * Class WhitelistCheck
  * @package Whitelist
  */
-class WhitelistCheck extends AbstractCheck
+final class WhitelistCheck extends AbstractCheck
 {
 }

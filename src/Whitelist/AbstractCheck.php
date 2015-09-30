@@ -15,6 +15,8 @@ use Whitelist\Definition\IDefinition;
 /**
  * Class AbstractCheck
  * @package Whitelist
+ *
+ * @internal
  */
 abstract class AbstractCheck implements ICheck
 {
@@ -28,7 +30,7 @@ abstract class AbstractCheck implements ICheck
      */
     private $definitions = array();
 
-    public function __construct() {
+    public  function __construct() {
         $this->initDefinitions();
     }
 

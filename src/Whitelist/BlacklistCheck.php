@@ -13,7 +13,7 @@ namespace Whitelist;
  * Class BlacklistCheck
  * @package Whitelist
  */
-class BlacklistCheck extends AbstractCheck
+final class BlacklistCheck extends AbstractCheck
 {
     /**
      * @param mixed $value
