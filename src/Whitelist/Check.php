@@ -59,7 +59,7 @@ class Check implements ICheck
     }
 
     /**
-     * @param $value
+     * @param string $value
      * @return mixed
      */
     public function check($value)

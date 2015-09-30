@@ -28,12 +28,8 @@ abstract class AbstractCheck implements ICheck
      */
     private $definitions = array();
 
-    private $reversedCheck;
-
-    public function __construct($reversedCheck = false) {
+    public function __construct() {
         $this->initDefinitions();
-
-        $this->reversedCheck = $reversedCheck;
     }
 
     /**
@@ -50,8 +46,10 @@ abstract class AbstractCheck implements ICheck
             }
         }
 
-        return $this->reversedCheck ? !$result : $result;
+        return $result;
     }
+
+
 
     /**
      * @param string $definitionClass

@@ -15,8 +15,12 @@ namespace Whitelist;
  */
 class BlacklistCheck extends AbstractCheck
 {
-    public function __construct()
+    /**
+     * @param mixed $value
+     * @return bool
+     */
+    public function check($value)
     {
-        parent::__construct(true);
+        return ! parent::check($value);
     }
 }
