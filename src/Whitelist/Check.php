@@ -72,11 +72,6 @@ class Check implements ICheck
             ? $this->blacklistCheck->check($value)
             : null;
 
-//        echo "\nCheck: $value\n";
-//        printBool('In whitelist', $whitelistCheck);
-//        printBool('Not in blacklist', $blacklistCheck);
-//        printBool('permissive mode', $this->permissiveMode);
-
         // No rules set
         if ($whitelistCheck === null && $blacklistCheck === null) {
             return $this->permissiveMode;
@@ -92,11 +87,8 @@ class Check implements ICheck
             return $whitelistCheck;
         }
 
-        $result = $whitelistCheck && $blacklistCheck;
-
-//        printBool('Result', $result);
-
-        return $result;
+        // Both check must be true
+        return $whitelistCheck && $blacklistCheck;
     }
 
 
