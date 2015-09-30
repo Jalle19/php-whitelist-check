@@ -2,6 +2,8 @@
 
 namespace Whitelist\Definition;
 
+use IpUtils\Factory;
+
 /**
  * Represents an IP address definition
  *
@@ -16,8 +18,8 @@ abstract class IPAddress extends Definition
 	{
 		try
 		{
-			$address = \IpUtils\Factory::getAddress($this->_definition);
-			$otherAddress = \IpUtils\Factory::getExpression($value);
+			$address = Factory::getAddress($this->_definition);
+			$otherAddress = Factory::getExpression($value);
 			return $address->matches($otherAddress);
 		}
 		catch (\Exception $e)

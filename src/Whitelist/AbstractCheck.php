@@ -55,6 +55,7 @@ abstract class AbstractCheck implements ICheck
 
     /**
      * @param string $definitionClass
+     * @throws InvalidArgumentException
      */
     public function registerDefinitionClass ($definitionClass) {
         if ( !$this->isAValidDefinition($definitionClass)) {
@@ -93,6 +94,7 @@ abstract class AbstractCheck implements ICheck
     /**
      * @param $definition
      * @return null
+     * @throws InvalidArgumentException
      */
     private function matchDefinition($definition)
     {

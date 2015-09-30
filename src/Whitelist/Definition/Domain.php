@@ -25,8 +25,9 @@ class Domain extends Definition
     public static function accept($value)
     {
         // The domain name cannot be empty
-        if (strlen($value) === 0)
+        if ($value === '') {
             return false;
+        }
 
         // None of the parts in the domain name can contain invalid characters
         // or begin/end with a dash

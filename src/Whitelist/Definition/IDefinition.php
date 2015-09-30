@@ -11,15 +11,17 @@ namespace Whitelist\Definition;
  */
 interface IDefinition
 {
-	/**
-	 * Returns true if the value matches the definition
-	 */
+    /**
+     * Returns true if the value matches the definition
+     * @param string $value
+     * @return boolean
+     */
 	public function match($value);
 
     /**
      * Return true if the value is valid for this definition
      *
-     * @param $value
+     * @param string $value
      * @return boolean
      */
     public static function accept($value);
