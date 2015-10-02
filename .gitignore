@@ -1,3 +1,4 @@
 vendor/
 build/
+/nbproject/private/
 composer.phar
