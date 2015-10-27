@@ -10,38 +10,67 @@
 class IPv4CIDRTest extends DefinitionTest
 {
 
-	/**
-	 * @expectedException InvalidArgumentException
-	 */
-	public function testEmptyDefinition()
-	{
-		$this->_definition = new \Whitelist\Definition\IPv4CIDR('');
-	}
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testEmptyDefinition()
+    {
+        $this->_definition = new \Whitelist\Definition\IPv4CIDR('');
+    }
 
-	/**
-	 * @expectedException InvalidArgumentException
-	 */
-	public function testValidate()
-	{
-		$this->_definition = new \Whitelist\Definition\IPv4CIDR('10.10.0.3');
-	}
+    /**
+     * Test various combinations of CIDR's (valid and invalid)
+     *
+     * @return null
+     */
+    public function testValidate()
+    {
+        $pass = false;
 
-	/**
-	 * @dataProvider provider
-	 */
-	public function testMatch($expected, $address)
-	{
-		$this->_definition = new \Whitelist\Definition\IPv4CIDR('10.10.0.0/16');
-		$this->assertEquals($expected, $this->_definition->match($address));
-	}
+        // Sorry have to do this instead of using @dataProvider to avoid breaking the contract.
+        foreach ($this->cidrProvider() as $cidr) {
+            list ($expected, $address) = $cidr;
+            try {
+                $this->_definition = new \Whitelist\Definition\IPv4CIDR($address);
+                $pass = true;
+            } catch (Exception $e) {
+                $pass = false;
+            }
+            $this->assertEquals($expected, $pass);
+        }
 
-	public function provider()
-	{
-		return array(
-			array(true, '10.10.1.1'),
-			array(true, '10.10.76.1'),
-			array(false, '110.1.76.1'),
-		);
-	}
+    }
 
+    public function cidrProvider()
+    {
+        return array(
+            array(false, '10.10.0.3'),
+            array(false, '10.10.0.0/23445'),
+            array(true, '10.10.0.0/16'),
+            array(true, '0.0.0.0/0'),
+        );
+    }
+
+    /**
+     * @dataProvider provider
+     */
+    public function testMatch($expected, $address)
+    {
+        // testing if address matches CIDR
+        $this->_definition = new \Whitelist\Definition\IPv4CIDR('10.10.0.0/16');
+        $this->assertEquals($expected, $this->_definition->match($address));
+
+        // testing that all of them pass zero CIDR
+        $this->_definition = new \Whitelist\Definition\IPv4CIDR('0.0.0.0/0');
+        $this->assertEquals(true, $this->_definition->match($address));
+    }
+
+    public function provider()
+    {
+        return array(
+            array(true, '10.10.1.1'),
+            array(true, '10.10.76.1'),
+            array(false, '110.1.76.1'),
+        );
+    }
 }
