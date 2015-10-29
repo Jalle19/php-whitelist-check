@@ -20,7 +20,7 @@ abstract class Definition implements IDefinition
 	/**
 	 * Class constructor. It stores the definition string and validates it.
 	 * @param string $definition the definition
-	 * @throws InvalidArgumentException if the definition is invalid
+	 * @throws \InvalidArgumentException if the definition is invalid
 	 */
 	public function __construct($definition)
 	{

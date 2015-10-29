@@ -2,6 +2,8 @@
 
 namespace Whitelist\Definition;
 
+use IpUtils\Expression\ExpressionInterface;
+
 /**
  * Represents a CIDR notation 
  *
@@ -12,6 +14,9 @@ namespace Whitelist\Definition;
 abstract class IPCIDR extends Definition
 {
 
+	/**
+	 * @var ExpressionInterface
+	 */
 	protected $_subnet;
 
 	public function validate()

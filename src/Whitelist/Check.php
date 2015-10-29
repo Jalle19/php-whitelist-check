@@ -2,6 +2,8 @@
 
 namespace Whitelist;
 
+use Whitelist\Definition\IDefinition;
+
 /**
  * Main class for checking values against a whitelist. It provides a method to 
  * set up the whitelist and a method to match arbitrary string against the 
@@ -22,7 +24,7 @@ class Check
 	/**
 	 * Parses the whitelist definitions into respective objects
 	 * @param array $whitelist list of definition strings
-	 * @throws InvalidArgumentException if the definition type couldn't be 
+	 * @throws \InvalidArgumentException if the definition type couldn't be
 	 * determined
 	 */
 	public function whitelist(array $whitelist)
