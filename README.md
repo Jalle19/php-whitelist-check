@@ -46,6 +46,10 @@ $checker->check('another.example.com'); // true
 
 ```
 
+## License
+
+This library is licensed under the BSD 2-Clause License
+
 ## Credits
 
 This library depends on `xrstf/ip-utils` for the IP-related functionality. It also assumes that ip-utils's test cases are sufficient, which is why only trivial testing on these functions have been made for this library.
