@@ -15,7 +15,7 @@ class IPv4CIDR extends Definition
 
     public function validate()
     {
-        return preg_match($this->regexp, $this->_definition);
+        return preg_match($this->regexp, $this->_definition) === 1;
     }
 
     public function match($value)
