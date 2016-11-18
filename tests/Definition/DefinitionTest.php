@@ -1,5 +1,7 @@
 <?php
 
+use Whitelist\Definition\IDefinition;
+
 /**
  * Base class for all definition tests. We use this to force subclasses to 
  * implement certain tests.
@@ -8,7 +10,7 @@
  * @copyright Copyright &copy; Sam Stenvall 2014-
  * @license http://www.opensource.org/licenses/bsd-license.php New BSD License
  */
-abstract class DefinitionTest extends PHPUnit_Framework_Testcase
+abstract class DefinitionTest extends \PHPUnit_Framework_TestCase
 {
 
 	/**
