@@ -1,4 +1,5 @@
-[![Build Status](https://travis-ci.org/Jalle19/php-whitelist-check.png?branch=master)](https://travis-ci.org/Jalle19/php-whitelist-check) [![Coverage Status](https://coveralls.io/repos/Jalle19/php-whitelist-check/badge.png?branch=master)](https://coveralls.io/r/Jalle19/php-whitelist-check?branch=master)
+[![Build Status](https://travis-ci.org/Jalle19/php-whitelist-check.png?branch=master)](https://travis-ci.org/Jalle19/php-whitelist-check)
+[![Coverage Status](https://coveralls.io/repos/github/Jalle19/php-whitelist-check/badge.svg?branch=master)](https://coveralls.io/github/Jalle19/php-whitelist-check?branch=master)
 
 php-whitelist-check
 ===================
