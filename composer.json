@@ -10,7 +10,7 @@
 		"xrstf/ip-utils": "~1.1.0"
 	},
 	"require-dev": {
-		"phpunit/phpunit": "3.7.*"
+		"phpunit/phpunit": "^4.8"
 	},
 	"autoload": {
 		"psr-0": {
