@@ -1,6 +1,6 @@
 <?php
 
-namespace Whitelist\Definition;
+namespace Safelist\Definition;
 
 /**
  * Base class for all definitions

@@ -15,7 +15,7 @@ class IPv4CIDRTest extends DefinitionTest
      */
     public function testEmptyDefinition()
     {
-        $this->_definition = new \Whitelist\Definition\IPv4CIDR('');
+        $this->_definition = new \Safelist\Definition\IPv4CIDR('');
     }
 
     /**
@@ -31,7 +31,7 @@ class IPv4CIDRTest extends DefinitionTest
         foreach ($this->cidrProvider() as $cidr) {
             list ($expected, $address) = $cidr;
             try {
-                $this->_definition = new \Whitelist\Definition\IPv4CIDR($address);
+                $this->_definition = new \Safelist\Definition\IPv4CIDR($address);
                 $pass = true;
             } catch (Exception $e) {
                 $pass = false;
@@ -57,11 +57,11 @@ class IPv4CIDRTest extends DefinitionTest
     public function testMatch($expected, $address)
     {
         // testing if address matches CIDR
-        $this->_definition = new \Whitelist\Definition\IPv4CIDR('10.10.0.0/16');
+        $this->_definition = new \Safelist\Definition\IPv4CIDR('10.10.0.0/16');
         $this->assertEquals($expected, $this->_definition->match($address));
 
         // testing that all of them pass zero CIDR
-        $this->_definition = new \Whitelist\Definition\IPv4CIDR('0.0.0.0/0');
+        $this->_definition = new \Safelist\Definition\IPv4CIDR('0.0.0.0/0');
         $this->assertEquals(true, $this->_definition->match($address));
     }
 

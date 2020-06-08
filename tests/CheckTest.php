@@ -11,7 +11,7 @@ class CheckTest extends PHPUnit_Framework_TestCase
 {
 
 	/**
-	 * @var Whitelist\Check the check instance
+	 * @var Safelist\Check the check instance
 	 */
 	protected $_checker;
 
@@ -20,39 +20,39 @@ class CheckTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
-		$this->_checker = new \Whitelist\Check();
+		$this->_checker = new \Safelist\Check();
 	}
 
 	/**
-	 * Test invalid objects passed to whitelist()
+	 * Test invalid objects passed to safelist()
 	 * @expectedException InvalidArgumentException
 	 */
 	public function testInvalidDefinitionObject()
 	{
-		$this->_checker->whitelist(array(
+		$this->_checker->safelist(array(
 			new stdClass(),
 		));
 	}
 
 	/**
-	 * Test unparsable definition passed to whitelist()
+	 * Test unparsable definition passed to safelist()
 	 * @expectedException InvalidArgumentException
 	 */
 	public function testUnknownDefinition()
 	{
-		$this->_checker->whitelist(array(
+		$this->_checker->safelist(array(
 			'ag?', // definition class should not be able to be determined
 		));
 	}
 
 	/**
-	 * This test also tests that the whitelist definitions are valid, ie. they 
+	 * This test also tests that the safelist definitions are valid, ie. they 
 	 * don't throw an exception
 	 * @dataProvider matchDataprovider
 	 */
 	public function testMatch($expected, $expression)
 	{
-		$this->_checker->whitelist(array(
+		$this->_checker->safelist(array(
 			'10.2.3.1',
 			'10.0.0.0/16',
 			'2001:14d8:100:934b::3:1',
@@ -61,7 +61,7 @@ class CheckTest extends PHPUnit_Framework_TestCase
 			'example-domain.com',
 			'*.another-example-domain.com',
 			'*.example.com',
-			new Whitelist\Definition\Domain('sub.example.com'),
+			new Safelist\Definition\Domain('sub.example.com'),
 		));
 		
 		$this->assertEquals($expected, $this->_checker->check($expression));

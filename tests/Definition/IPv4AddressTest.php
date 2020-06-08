@@ -15,7 +15,7 @@ class IPv4AddressTest extends DefinitionTest
 	 */
 	public function testEmptyDefinition()
 	{
-		$this->_definition = new \Whitelist\Definition\IPv4Address('');
+		$this->_definition = new \Safelist\Definition\IPv4Address('');
 	}
 
 	/**
@@ -23,7 +23,7 @@ class IPv4AddressTest extends DefinitionTest
 	 */
 	public function testValidate()
 	{
-		$this->_definition = new \Whitelist\Definition\IPv4Address('not.an.ipv4.address');
+		$this->_definition = new \Safelist\Definition\IPv4Address('not.an.ipv4.address');
 	}
 
 	/**
@@ -31,7 +31,7 @@ class IPv4AddressTest extends DefinitionTest
 	 */
 	public function testMatch($expected, $address)
 	{
-		$this->_definition = new \Whitelist\Definition\IPv4Address('192.168.1.1');
+		$this->_definition = new \Safelist\Definition\IPv4Address('192.168.1.1');
 		$this->assertEquals($expected, $this->_definition->match($address));
 	}
 

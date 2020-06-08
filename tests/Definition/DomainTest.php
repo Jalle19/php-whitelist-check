@@ -15,7 +15,7 @@ class DomainTest extends DefinitionTest
 	 */
 	public function testEmptyDefinition()
 	{
-		$this->_definition = new Whitelist\Definition\Domain('');
+		$this->_definition = new Safelist\Definition\Domain('');
 	}
 	
 	public function testValidate()
@@ -28,7 +28,7 @@ class DomainTest extends DefinitionTest
 	 */
 	public function testValidateInvalidCharacters()
 	{
-		$this->_definition = new Whitelist\Definition\Domain('ag*');
+		$this->_definition = new Safelist\Definition\Domain('ag*');
 	}
 	
 	/**
@@ -36,7 +36,7 @@ class DomainTest extends DefinitionTest
 	 */
 	public function testValidateInvalidBeginning()
 	{
-		$this->_definition = new Whitelist\Definition\Domain('-otherwise-valid.com');
+		$this->_definition = new Safelist\Definition\Domain('-otherwise-valid.com');
 	}
 	
 	/**
@@ -44,7 +44,7 @@ class DomainTest extends DefinitionTest
 	 */
 	public function testValidateInvalidEnd()
 	{
-		$this->_definition = new Whitelist\Definition\Domain('otherwise-valid-.com');
+		$this->_definition = new Safelist\Definition\Domain('otherwise-valid-.com');
 	}
 
 	/**
@@ -58,15 +58,15 @@ class DomainTest extends DefinitionTest
 	public function provider()
 	{
 		return array(
-			array(true,  new Whitelist\Definition\WildcardDomain('*.example.com'), 'sub.example.com'),
-			array(true,  new Whitelist\Definition\WildcardDomain('*.example.com'), 'anothersub.example.com'),
-			array(false,  new Whitelist\Definition\WildcardDomain('*.example.com'), 'sub.example.net'),
-			array(false,  new Whitelist\Definition\WildcardDomain('*.example.com'), 'sub.anotherexample.com'),
-			array(false,  new Whitelist\Definition\WildcardDomain('*.example.com'), 'localhost'),
-			array(true,  new Whitelist\Definition\Domain('localhost'), 'localhost'),
-			array(true,  new Whitelist\Definition\Domain('example.com'), 'example.com'),
-			array(false, new Whitelist\Definition\Domain('example.com'), 'sub.example.com'),
-			array(false, new Whitelist\Definition\Domain('example.com'), 'example2.com'),
+			array(true,  new Safelist\Definition\WildcardDomain('*.example.com'), 'sub.example.com'),
+			array(true,  new Safelist\Definition\WildcardDomain('*.example.com'), 'anothersub.example.com'),
+			array(false,  new Safelist\Definition\WildcardDomain('*.example.com'), 'sub.example.net'),
+			array(false,  new Safelist\Definition\WildcardDomain('*.example.com'), 'sub.anotherexample.com'),
+			array(false,  new Safelist\Definition\WildcardDomain('*.example.com'), 'localhost'),
+			array(true,  new Safelist\Definition\Domain('localhost'), 'localhost'),
+			array(true,  new Safelist\Definition\Domain('example.com'), 'example.com'),
+			array(false, new Safelist\Definition\Domain('example.com'), 'sub.example.com'),
+			array(false, new Safelist\Definition\Domain('example.com'), 'example2.com'),
 		);
 	}
 

@@ -16,7 +16,7 @@ class IPv6CIDRTest extends DefinitionTest
 	 */
 	public function testEmptyDefinition()
 	{
-		new \Whitelist\Definition\IPv6CIDR('');
+		new \Safelist\Definition\IPv6CIDR('');
 	}
 
 
@@ -25,7 +25,7 @@ class IPv6CIDRTest extends DefinitionTest
 	 */
 	public function testValidate()
 	{
-		$cidr = new \Whitelist\Definition\IPv6CIDR('2001::/129');
+		$cidr = new \Safelist\Definition\IPv6CIDR('2001::/129');
 
 		$this->assertFalse($cidr->validate());
 	}
@@ -35,7 +35,7 @@ class IPv6CIDRTest extends DefinitionTest
 	 * 
 	 */
 	public function testValidateTrue() {
-		$cidr = new \Whitelist\Definition\IPv6CIDR('2001::/3');
+		$cidr = new \Safelist\Definition\IPv6CIDR('2001::/3');
 
 		$this->assertTrue($cidr->validate());
 	}

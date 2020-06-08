@@ -1,6 +1,6 @@
 <?php
 
-namespace Whitelist\Definition;
+namespace Safelist\Definition;
 
 /**
  * Represents an IPv4 address definition

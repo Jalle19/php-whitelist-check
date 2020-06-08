@@ -1,10 +1,7 @@
-[![Build Status](https://travis-ci.org/Jalle19/php-whitelist-check.png?branch=master)](https://travis-ci.org/Jalle19/php-whitelist-check)
-[![Coverage Status](https://coveralls.io/repos/github/Jalle19/php-whitelist-check/badge.svg?branch=master)](https://coveralls.io/github/Jalle19/php-whitelist-check?branch=master)
-
-php-whitelist-check
+php-safelist-check
 ===================
 
-A modern and simple approach to validating IP addresses and domains against a whitelist. It supports both IPv4 and IPv6 addresses and CIDR subnets in addition to domain names and wild-card domains.
+A modern and simple approach to validating IP addresses and domains against a safelist. It supports both IPv4 and IPv6 addresses and CIDR subnets in addition to domain names and wild-card domains.
 
 ## Requirements
 
@@ -12,28 +9,28 @@ A modern and simple approach to validating IP addresses and domains against a wh
 
 ## Usage
 
-The `Check::whitelist()` method takes an array of definitions which will constitute the whitelist. The definitions can either be strings (which will be parsed to their respective objects) or objects.
+The `Check::safelist()` method takes an array of definitions which will constitute the safelist. The definitions can either be strings (which will be parsed to their respective objects) or objects.
 
-The `Check::check($value)` method is used to check the specified value against the current whitelist. The method will return true if the value matches any of the definitions.
+The `Check::check($value)` method is used to check the specified value against the current safelist. The method will return true if the value matches any of the definitions.
 
-To create your own definition classes just extended `Whitelist\Definition\Definition` and implement `Whitelist\Definition\IDefinition`
+To create your own definition classes just extended `Safelist\Definition\Definition` and implement `Safelist\Definition\IDefinition`
 
 Example usage:
 
 ```php
 require_once("vendor/autoload.php");
 
-$checker = new Whitelist\Check();
+$checker = new Safelist\Check();
 
 try {
-	$checker->whitelist(array(
+	$checker->safelist(array(
 		'10.0.3.1',
 		'10.0.0.0/16',
 		'2001:db8:100:934b::3:1',
 		'2001:db8:100:934b::/64',
 		'*.example.com',
 		'localhost',
-		new Whitelist\Definition\Domain('vpn.work.com'),
+		new Safelist\Definition\Domain('vpn.work.com'),
 	));
 }
 catch (InvalidArgumentException $e) {

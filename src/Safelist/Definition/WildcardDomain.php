@@ -1,6 +1,6 @@
 <?php
 
-namespace Whitelist\Definition;
+namespace Safelist\Definition;
 
 /**
  * Represents a wildcard domain definition

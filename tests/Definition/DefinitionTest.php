@@ -1,6 +1,6 @@
 <?php
 
-use Whitelist\Definition\IDefinition;
+use Safelist\Definition\IDefinition;
 
 /**
  * Base class for all definition tests. We use this to force subclasses to 

@@ -1,13 +1,13 @@
 <?php
 
-namespace Whitelist;
+namespace Safelist;
 
-use Whitelist\Definition\IDefinition;
+use Safelist\Definition\IDefinition;
 
 /**
- * Main class for checking values against a whitelist. It provides a method to 
- * set up the whitelist and a method to match arbitrary string against the 
- * whitelist.
+ * Main class for checking values against a safelist. It provides a method to 
+ * set up the safelist and a method to match arbitrary string against the 
+ * safelist.
  *
  * @author Sam Stenvall <neggelandia@gmail.com>
  * @copyright Copyright &copy; Sam Stenvall 2014-
@@ -17,21 +17,21 @@ class Check
 {
 
 	/**
-	 * @var IDefinition[] the whitelist definitions
+	 * @var IDefinition[] the safelist definitions
 	 */
 	private $_definitions = array();
 
 	/**
-	 * Parses the whitelist definitions into respective objects
-	 * @param array $whitelist list of definition strings
+	 * Parses the safelist definitions into respective objects
+	 * @param array $safelist list of definition strings
 	 * @throws \InvalidArgumentException if the definition type couldn't be
 	 * determined
 	 */
-	public function whitelist(array $whitelist)
+	public function safelist(array $safelist)
 	{
 		$this->_definitions = array();
 		
-		foreach ($whitelist as $definition)
+		foreach ($safelist as $definition)
 		{
 			// Pre-configured object
 			if (is_object($definition))
