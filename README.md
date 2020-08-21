@@ -1,6 +1,8 @@
 php-safelist-check
 ===================
 
+This is a fork of https://github.com/Jalle19/php-whitelist-check to change hidden bias terminology.
+
 A modern and simple approach to validating IP addresses and domains against a safelist. It supports both IPv4 and IPv6 addresses and CIDR subnets in addition to domain names and wild-card domains.
 
 ## Requirements
