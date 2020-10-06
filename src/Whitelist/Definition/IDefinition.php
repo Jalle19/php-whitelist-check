@@ -11,21 +11,19 @@ namespace Whitelist\Definition;
  */
 interface IDefinition
 {
+    /**
+     * Validates the definition and returns false if the definition is
+     * invalid
+     * @return boolean
+     */
+    public function validate();
 
-	/**
-	 * Validates the definition and returns false if the definition is
-	 * invalid
-	 * @return boolean
-	 */
-	public function validate();
-
-
-	/**
-	 * Returns true if the value matches the definition
-	 *
-	 * @param string $value
-	 *
-	 * @return boolean
-	 */
-	public function match($value);
+    /**
+     * Returns true if the value matches the definition
+     *
+     * @param  string  $value
+     *
+     * @return boolean
+     */
+    public function match($value);
 }
