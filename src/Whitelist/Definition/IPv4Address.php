@@ -2,6 +2,8 @@
 
 namespace Whitelist\Definition;
 
+use IpUtils\Address\IPv4;
+
 /**
  * Represents an IPv4 address definition
  *
@@ -12,9 +14,9 @@ namespace Whitelist\Definition;
 class IPv4Address extends IPAddress
 {
 
-	public function validate()
-	{
-		return \IpUtils\Address\IPv4::isValid($this->_definition);
-	}
+    public function validate()
+    {
+        return IPv4::isValid($this->_definition);
+    }
 
 }

@@ -2,6 +2,8 @@
 
 namespace Whitelist\Definition;
 
+use IpUtils\Address\IPv6;
+
 /**
  * Represents an IPv6 address definition
  *
@@ -12,9 +14,9 @@ namespace Whitelist\Definition;
 class IPv6Address extends IPAddress
 {
 
-	public function validate()
-	{
-		return \IpUtils\Address\IPv6::isValid($this->_definition);
-	}
+    public function validate()
+    {
+        return IPv6::isValid($this->_definition);
+    }
 
 }

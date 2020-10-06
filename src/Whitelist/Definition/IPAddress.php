@@ -2,6 +2,9 @@
 
 namespace Whitelist\Definition;
 
+use Exception;
+use IpUtils\Factory;
+
 /**
  * Represents an IP address definition
  *
@@ -12,19 +15,18 @@ namespace Whitelist\Definition;
 abstract class IPAddress extends Definition
 {
 
-	public function match($value)
-	{
-		try
-		{
-			$address = \IpUtils\Factory::getAddress($this->_definition);
-			$otherAddress = \IpUtils\Factory::getExpression($value);
-			return $address->matches($otherAddress);
-		}
-		catch (\Exception $e)
-		{
-			unset($e);
-			return false;
-		}
-	}
+    public function match($value)
+    {
+        try {
+            $address = Factory::getAddress($this->_definition);
+            $otherAddress = Factory::getExpression($value);
+
+            return $address->matches($otherAddress);
+        } catch (Exception $e) {
+            unset($e);
+
+            return false;
+        }
+    }
 
 }

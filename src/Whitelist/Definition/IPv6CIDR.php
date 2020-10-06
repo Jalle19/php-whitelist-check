@@ -3,7 +3,7 @@
 namespace Whitelist\Definition;
 
 /**
- * Represents an IPv6 CIDR notation definition. 
+ * Represents an IPv6 CIDR notation definition.
  *
  * @author Sam Stenvall <neggelandia@gmail.com>
  * @copyright Copyright &copy; Sam Stenvall 2014-
