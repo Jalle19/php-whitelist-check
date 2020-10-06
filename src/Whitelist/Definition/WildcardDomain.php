@@ -12,17 +12,17 @@ namespace Whitelist\Definition;
 class WildcardDomain extends Definition
 {
 
-	public function validate()
-	{
-		return true;
-	}
+    public function validate()
+    {
+        return true;
+    }
 
-	public function match($value)
-	{
-		// Remove the wildcard part and check if it matches the end of $value
-		$domain = substr($this->_definition, 1);
+    public function match($value)
+    {
+        // Remove the wildcard part and check if it matches the end of $value
+        $domain = substr($this->_definition, 1);
 
-		return substr($value, -strlen($domain)) === $domain;
-	}
+        return substr($value, -strlen($domain)) === $domain;
+    }
 
 }

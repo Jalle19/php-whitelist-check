@@ -21,12 +21,13 @@ class IPv4CIDR extends Definition
     public function match($value)
     {
         // Adapted from https://gist.github.com/tott/7684443
-        
+
         list($range, $netmask) = explode('/', $this->_definition, 2);
         $rangeDecimal = ip2long($range);
         $ipDecimal = ip2long($value);
         $wildcardDecimal = pow(2, (32 - $netmask)) - 1;
-        $netmaskDecimal = ~ $wildcardDecimal;
+        $netmaskDecimal = ~$wildcardDecimal;
+
         return (($ipDecimal & $netmaskDecimal) == ($rangeDecimal & $netmaskDecimal));
     }
 }
