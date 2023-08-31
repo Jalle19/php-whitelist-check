@@ -1,0 +1,53 @@
+name: Run test suite
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  test:
+    name: Run test suite
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-version: ['5.5', '5.6', '7.0', '7.1', '7.2', '7.3', '7.4']
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup PHP ${{ matrix.php-version }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          tools: composer
+      - name: Install dependencies
+        run: composer install
+      - name: Run tests
+        run: |
+          mkdir -p build/logs
+          vendor/bin/phpunit
+
+  coverage:
+    name: Generate test coverage
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup PHP ${{ matrix.php-version }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 7.4
+          tools: composer
+      - name: Install dependencies
+        run: composer install
+      - name: Run tests
+        run: |
+          mkdir -p build/logs
+          vendor/bin/phpunit
+      - name: Upload coverage to Coveralls
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+        run: |
+          composer global require php-coveralls/php-coveralls
+          php-coveralls --coverage_clover=build/logs/clover.xml -v
