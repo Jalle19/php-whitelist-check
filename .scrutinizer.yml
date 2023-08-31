@@ -5,7 +5,7 @@ build:
         override:
           - php-scrutinizer-run
   environment:
-    php: 7.4.33
+    php: 7.4
 
 checks:
   php: true
