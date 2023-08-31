@@ -28,3 +28,24 @@ jobs:
         run: |
           mkdir -p build/logs
           vendor/bin/phpunit
+
+  coverage:
+    name: Generate test coverage
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup PHP ${{ matrix.php-version }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 7.4
+          tools: composer
+      - name: Install dependencies
+        run: composer install
+      - name: Run tests
+        run: |
+          mkdir -p build/logs
+          vendor/bin/phpunit
+      - name: Upload coverage to Coveralls
+        run: |
+          wget https://github.com/satooshi/php-coveralls/releases/download/v1.0.1/coveralls.phar
+          php coveralls.phar -v
