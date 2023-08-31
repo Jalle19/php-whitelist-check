@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/Jalle19/php-whitelist-check.png?branch=master)](https://travis-ci.org/Jalle19/php-whitelist-check)
+[![Run test suite](https://github.com/Jalle19/php-whitelist-check/actions/workflows/tests.yml/badge.svg)](https://github.com/Jalle19/php-whitelist-check/actions/workflows/tests.yml)
 [![Coverage Status](https://coveralls.io/repos/github/Jalle19/php-whitelist-check/badge.svg?branch=master)](https://coveralls.io/github/Jalle19/php-whitelist-check?branch=master)
 
 php-whitelist-check
