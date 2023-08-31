@@ -7,7 +7,7 @@
 	"license": "BSD-2-Clause",
 	"require": {
 		"php": ">=5.5.2",
-		"jycr753/ip-utils": "^2.0.1"
+		"jycr753/ip-utils": "^2.0.1 | ^3.0.0"
 	},
 	"require-dev": {
 		"phpunit/phpunit": "^4.8"
